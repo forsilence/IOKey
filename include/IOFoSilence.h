@@ -28,7 +28,7 @@ class StringPool{
   StringPool& reset();
   StringPool& pushToPool(std::string str);
   StringPool& setSize(std::size_t loc);
-  std::ostream& PoolOutPut(std::ostream& PrintOut);
+  std::ostream& PoolOutPut(std::ostream& PrintOut,std::string Header);
   bool PoolFull() const;
   private:
   std::size_t MaxSize;

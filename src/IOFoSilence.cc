@@ -54,9 +54,9 @@ StringPool& StringPool::setSize(std::size_t size_){
   return *this;
 }
 
-std::ostream& StringPool::PoolOutPut(std::ostream& PrintOut){
+std::ostream& StringPool::PoolOutPut(std::ostream& PrintOut,std::string Header=""){
   for(auto str:realPool){
-    PrintOut << str << std::endl;
+    PrintOut << Header + str << std::endl;
   }
   return PrintOut;
 }
@@ -76,7 +76,7 @@ OutBase& OutBase::Out(std::string str,level l){
     switch (outType)
     {
     case outToFile:
-      StrToPool(levelHead,levelToStringPoolLocation(l));
+      StrToPool(str,levelToStringPoolLocation(l));
       break;
     case OutToScreen:
     default:
@@ -105,7 +105,7 @@ void OutBase::StrToPool(std::string str,std::size_t loc){
   {
     case outToFile:
       if(LevelPools[loc].PoolFull()){
-        std::string outFileName = BaseFileName+std::to_string(PoolLocationToLevel(loc)) + outFileTail;
+        std::string outFileName = BaseFileName+LevelToString(PoolLocationToLevel(loc)) + outFileTail;
         std::ofstream outFile(outFileName,std::ofstream::ate);
         if(outFile){
           LevelPools[loc].PoolOutPut(outFile);
@@ -120,7 +120,7 @@ void OutBase::StrToPool(std::string str,std::size_t loc){
     ToScreenLabel:
     case OutToScreen:
     default:
-      LevelPools[loc].PoolOutPut(std::cout);
+      LevelPools[loc].PoolOutPut(std::cout,"["+LevelToString(PoolLocationToLevel(loc))+"]");
       LevelPools[loc].reset();
       break;
   }
