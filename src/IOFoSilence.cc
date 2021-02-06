@@ -68,6 +68,9 @@ bool StringPool::PoolFull() const{
     return true;
   }
 }
+bool StringPool::empty() const{
+  return realPool.empty();
+}
 
 OutBase& OutBase::Out(std::string str,level l){
   if(!thisLevelBaned(l)){
@@ -129,5 +132,18 @@ void OutBase::StrToPool(std::string str,std::size_t loc){
 OutBase& OutBase::setOutFileTail(std::string str){
   outFileTail = str;
   return *this;
+}
+
+OutBase::~OutBase(){
+  for(int pool=0 ; pool<LevelPools.size(); ++pool){
+    if(!LevelPools[pool].empty()){
+      std::string outFileName = BaseFileName+LevelToString(PoolLocationToLevel(pool)) + outFileTail;
+      std::ofstream outFile(outFileName,std::ofstream::ate);
+      LevelPools[pool].PoolOutPut(outFile,"");
+    }
+  }
+  outFileTail.~basic_string();
+  LevelPools.~vector();
+  BaseFileName.~basic_string();
 }
 } // IO

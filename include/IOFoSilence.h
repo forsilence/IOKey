@@ -30,6 +30,7 @@ class StringPool{
   StringPool& setSize(std::size_t loc);
   std::ostream& PoolOutPut(std::ostream& PrintOut,std::string Header);
   bool PoolFull() const;
+  bool empty() const;
   private:
   std::size_t MaxSize;
   std::vector<std::string> realPool;
@@ -50,6 +51,7 @@ class OutBase: public Levels{
     BaseFileName(baseFileName),
     outType(OutToScreen),
     outFileTail(""){}
+  virtual ~OutBase();
   OutBase& Out(std::string str,level l);
   OutBase& setOutType(OutType outType_);
   std::size_t levelToStringPoolLocation(level l);
